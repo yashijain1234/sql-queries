@@ -1,0 +1,65 @@
+create table employee
+(
+Empid varchar2(3) primary key check(Empid like 'E%'),
+Ename varchar2(25) not null ,
+DoB date not null ,
+DoJ date not null, check(DoJ>DoB) ,
+Salary number(7) not null, check(Salary>0)
+);
+
+insert into employee values( 'E01' , 'Madhur' , '14-Apr-1998' , '31-july-2015' , 60000);
+insert into employee values( 'E02' , 'Sumit' , '07-jan-1956' , '16-march-1991' , 125000);
+insert into employee values( 'E03' , 'Rishabh' , '12-may-1989' , '23-dec-2022' , 85000);
+insert into employee values( 'E04' , 'Rajat' , '02-july-1998' , '17-apr-2021' , 510000);
+insert into employee values( 'E05' , 'Akansha' , '29-feb-1972' , '26-nov-1992' , 90000);
+
+
+
+
+select * from employee order by Empid;
+
+// 2.1	List the employee details who joined on a particular date.
+select * from employee where DoJ='16-mar-1991';
+
+// 2.2	Write a query to list the employees with Hire date in the format like February 22, 1991
+select * from employee where date_format(DoB ,"%m %d %y");
+
+// 2.3	Write a query to list the employees who joined before 2018.
+select * from employee where (extract(year from DoJ))>2018;
+
+// 2.4	Write a query to list the employees who joined in the month January.
+select * from employee where(extract(month from DoJ))=1;
+
+// 2.5	Write a query to list the employees who have joined in the year 2019.
+select * from employee where (extract(year from DoJ))=2019;
+
+//2.6	Write a query to list the employee details according to the date of joining (recent joining should come first).
+select * from employee order by (DoJ)desc;
+
+// 2.7	Write a query to list the employee details along with their experience.
+select DATEDIFF('1989-05-12', DoJ) as 'Years_Experience' from employee;
+
+// 2.8	Write a query to list those employees whose salary is an odd value.
+select * from employee where mod(salary,2)!=0;
+
+// 2.9	Write a query to list the employees of id E001 or E10, joined in the year 1991.
+select * from employee where ((Empid='E001' OR Empid='E10') AND (extract(year from DoJ))=1991);
+
+// 2.10	Write a query in SQL to list the employees who joined in any year except the month February.
+select * from employee where (extract(month from DoJ))!=2;
+
+// 2.11	Write a query to display happy birthday to those employees who are eligible to get this message.
+select concat('Happy birthday to', Ename)from employee where (extract(day from DoJ))=1 AND (extract(month from DoJ))=2;
+
+
+
+
+
+
+
+
+
+
+
+
+
