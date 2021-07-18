@@ -1,0 +1,70 @@
+create table emp(id number(2), name varchar2(20), salary number(5));
+insert into emp values(1, 'Yashi', 25000);
+insert into emp values(2, 'Palak', 35000);
+insert into emp values(3, 'Reshu', 40000);
+insert into emp values(4, 'Sonal', 30000);
+
+// delete from emp;
+select * from emp order by id;
+
+create or replace function Calculate_tax(v_salary number)
+return number 
+as 
+tax number;
+begin
+    tax := (v_salary * 2.8) /100;
+    return(tax);
+end;
+
+declare v_salary number;
+v_tax number;
+begin 
+select salary into v_salary from emp where id=2;
+v_tax := calculate_tax(v_salary);
+dbms_output.put_line(v_tax);
+end;
+select id, name , salary , tax(salary) as "tax" from emp;
+
+**********************************
+**********************************
+
+create table student(id number(2), name varchar2(15), sub1_marks number(2),sub2_marks number(2) , sub3_marks number(2));
+insert into student values(1, 'Yashi' , 82,96,78);
+insert into student values(2, 'praksha' , 84,88,75);
+insert into student values(3, 'bhalu' , 66,79,83);
+insert into student values(4, 'asthum' , 89,81,73);
+
+select * from student order by id;
+
+create or replace function calculate_total_marks(m1 number , m2 number, m3 number)
+return number
+as 
+total_marks number;
+begin
+    total_marks := m1+m2+m3;
+    return(total_marks);
+end;
+
+create or replace function calculate_division(m1 number , m2 number, m3 number)
+return number
+as 
+division number;
+begin
+    division := (m1+m2+m3)/100;
+    return(division);
+end;
+
+declare
+v_total number;
+v_div number;
+m1 number;
+m2 number;
+m3 number;
+begin
+select sub1_marks , sub2_marks , sub3_marks into m1 , m2 , m3 from student where id=2;
+v_total :=calculate_total_marks(m1,m2,m3);
+v_div :=calculate_division(m1,m2,m3);
+dbms_output.put_line(v_total);
+dbms_output.put_line(v_div);
+end;
+select id, name , sub1_marks , sub2_marks, sub3_marks , total_marks(sub1_marks , sub2_marks, sub3_marks) as "total_marks" , division(sub1_marks , sub2_marks, sub3_marks) as "division" from student;
